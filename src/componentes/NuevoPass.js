@@ -1,31 +1,56 @@
-// NuevoPass.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import {Popup} from './Popup'
+
 
 const NuevoPass = () => {
     const [usuario, setUsuario] = useState('');
     const [contraseñaActual, setContraseñaActual] = useState('');
     const [nuevaContraseña, setNuevaContraseña] = useState('');
     const [confirmarNuevaContraseña, setConfirmarNuevaContraseña] = useState('');
-
-    // Inicializa useNavigate para la navegación
+    const [mensaje, setMensaje] = useState('');
+    const [contraseña_cambiada, set_contraseña_cambiada] = useState(false);
     const navigate = useNavigate();
-
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        // Aquí puedes agregar la lógica para cambiar la contraseña, como realizar una llamada a la API
-        console.log(`Cambio de contraseña para: ${usuario}`);
-    };
-
-    // Función para navegar de vuelta al login
+    
     const goToLogin = () => {
+        set_contraseña_cambiada(false)
         navigate('/');
     };
 
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        if (nuevaContraseña !== confirmarNuevaContraseña) {
+            setMensaje('La nueva contraseña no coincide con la confirmación.');
+            return;
+        }
+
+        try {
+            const response = await axios.post('http://localhost:3006/api/nuevoPass', {
+                correo: usuario,
+                pass: contraseñaActual,
+                newPass: nuevaContraseña
+            });
+
+            if (response.status === 204) {
+                set_contraseña_cambiada(true)
+                
+            } else {
+                setMensaje('Error al actualizar la contraseña.');
+            }
+        } catch (error) {
+            // Mostrar el mensaje del error proveniente del backend
+            console.error('Error del servidor:', error.response ? error.response.data : error.message);
+            setMensaje(error.response?.data?.mensaje || 'Usuario o contraseña incorrectos o error en el servidor.');
+        }
+    };
+
+    
     return (
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', backgroundColor: 'black' }}>
             <div style={{ width: '400px', padding: '20px', color: 'white' }}>
                 <h2 style={{ textAlign: 'center', margin: '0 0 20px 0' }}>TOMASENEKOBORDA</h2>
+                {mensaje && <p style={{ color: 'orange', textAlign: 'center' }}>{mensaje}</p>}
                 <form onSubmit={handleSubmit}>
                     <div style={{ marginBottom: '10px' }}>
                         <label htmlFor="usuario">Usuario:</label><br />
@@ -103,6 +128,7 @@ const NuevoPass = () => {
                         </button>
                     </div>
                 </form>
+                {contraseña_cambiada && <Popup titulo={"Contraseña cambiada"} contenido={"Su contraseña se ha cambiado exitosamente"} alCerrar={goToLogin}/>} 
             </div>
         </div>
     );
