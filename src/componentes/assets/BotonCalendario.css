@@ -1,0 +1,23 @@
+/* BotonCalendario.css */
+.calendar-button {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #000;
+    margin: 2px;
+}
+
+.day-circle {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: #000;
+    border-radius: 50%;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

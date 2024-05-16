@@ -12,7 +12,9 @@ const NuevoPass = () => {
     const [mensaje, setMensaje] = useState('');
     const [contraseña_cambiada, set_contraseña_cambiada] = useState(false);
     const navigate = useNavigate();
-    
+    const comprobarNuevaContrasenaCoincide = ((confirmacionContrasena) => {
+        return nuevaContraseña === confirmacionContrasena
+    })
     const goToLogin = () => {
         set_contraseña_cambiada(false)
         navigate('/');
@@ -93,7 +95,7 @@ const NuevoPass = () => {
                             name="confirmarNuevaPass"
                             value={confirmarNuevaContraseña}
                             onChange={(e) => setConfirmarNuevaContraseña(e.target.value)}
-                            style={{ width: '100%', padding: '10px', backgroundColor: '#333', border: 'none', color: 'white' }}
+                            style={{ width: '100%', padding: '10px', backgroundColor: '#333', border: comprobarNuevaContrasenaCoincide(confirmarNuevaContraseña)? 'none': '1px solid red', color: 'white' }}
                         /><br />
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>

@@ -3,7 +3,8 @@ import React, { useState } from 'react';
 import Calendar from 'react-calendar';
 import { useNavigate } from 'react-router-dom';
 import 'react-calendar/dist/Calendar.css';
-import './assets/index.css'; // Asegúrate de importar el archivo CSS correcto
+import './assets/index.css';
+import BotonCalendario from './BotonCalendario';
 
 const MiCalendario = () => {
     const [selectedDate, setSelectedDate] = useState(new Date());
@@ -14,28 +15,23 @@ const MiCalendario = () => {
         setSelectedDate(date);
     };
 
-    // Funciones para Navegación
-    const handleLogout = () => {
-        console.log("Cierre de sesión");
-        navigate('/login');
-    };
-
-    const goToDepuradora = () => {
-        navigate('/depuradora');
-    };
-
-    const goToDatos = () => {
-        navigate('/datos');
-    };
-
-    const goToVacaciones = () => {
-        navigate('/vacaciones');
+    // Función para renderizar los botones en las celdas del calendario
+    const renderDayButton = ({ date, view }) => {
+        if (view === 'month') {
+            return (
+                <BotonCalendario
+                    day={date.getDate()}
+                    color1="#E72900" // Color por defecto
+                    color2="#1778FC" // Color por defecto
+                />
+            );
+        }
+        return null;
     };
 
     return (
-        <div className="depuradora-container">
+        <div className="calendario-container">
             <div className="header">
-                <button onClick={handleLogout}>Cerrar Sesión</button>
                 <h1>CALENDARIO</h1>
             </div>
             <div className="calendar-panel">
@@ -43,13 +39,8 @@ const MiCalendario = () => {
                     value={selectedDate}
                     onChange={onDateChange}
                     locale="es-ES"
+                    tileContent={renderDayButton}
                 />
-            </div>
-            <div className="button-panel">
-                <button onClick={goToDepuradora}>Depuradora</button>
-                <button>Calendario</button>
-                <button onClick={goToDatos}>Datos</button>
-                <button onClick={goToVacaciones}>Vacaciones</button>
             </div>
         </div>
     );

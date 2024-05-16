@@ -1,108 +1,55 @@
 // Panel.js
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Header from './Header';
+import Footer from './Footer';
+import Depuradora from './Depuradora'; 
+import MiCalendario from './MiCalendario';
+import Datos from './Datos';
+import Vacaciones from './Vacaciones';
+import './assets/index.css'; 
 
-export const Panel = () => {
+const Panel = ({ activePage }) => {
     const navigate = useNavigate();
 
+    const handleNavigation = (route) => {
+        navigate(`/${route}`);
+    };
+
+    const renderPagina = () => {
+        switch (activePage) {
+            case 'depuradora':
+                return <Depuradora />;
+            case 'calendario':
+                return <MiCalendario />;
+            case 'datos':
+                return <Datos />;
+            case 'vacaciones':
+                return <Vacaciones />;
+            default:
+                return <Depuradora />;
+        }
+    };
+
     const handleLogout = () => {
-        console.log("Cierre de sesión");
-        navigate('/login');
-    };
-
-    // Funciones para navegar a las diferentes secciones
-    const goToCalendario = () => {
-        navigate('/calendario');
-    };
-
-    const goToDepuradora = () => {
-        navigate('/depuradora');
-    };
-
-    const goToDatos = () => {
-        navigate('/datos');
-    };
-
-    const goToVacaciones = () => {
-        navigate('/vacaciones');
+        console.log('Logging out...');
     };
 
     return (
-        <div className="panel-container" style={{ backgroundColor: '#2C2C2C', height: '100vh', color: 'white', padding: '20px' }}>
-            {/* Encabezado */}
-            <div className="header" style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
-                <button
-                    onClick={handleLogout}
-                    style={{
-                        backgroundColor: 'orange',
-                        border: 'none',
-                        padding: '10px 20px',
-                        color: 'black',
-                        borderRadius: '5px',
-                        cursor: 'pointer'
-                    }}
-                >
-                    Cerrar Sesión
-                </button>
-                <h1>TOMASENEKOBORDA</h1>
-                <h2>ANDER</h2>
-            </div>
+        <div className="panel-container" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+            <Header onLogout={handleLogout} />
 
-            {/* Panel de Botones */}
-            <div className="button-panel" style={{ display: 'flex', justifyContent: 'space-evenly', marginTop: '20px' }}>
-                <button
-                    onClick={goToCalendario}
-                    style={{
-                        backgroundColor: 'orange',
-                        border: 'none',
-                        padding: '10px 20px',
-                        color: 'black',
-                        borderRadius: '5px',
-                        cursor: 'pointer'
-                    }}
-                >
-                    Calendario
-                </button>
-                <button
-                    onClick={goToDepuradora}
-                    style={{
-                        backgroundColor: 'orange',
-                        border: 'none',
-                        padding: '10px 20px',
-                        color: 'black',
-                        borderRadius: '5px',
-                        cursor: 'pointer'
-                    }}
-                >
-                    Depuradora
-                </button>
-                <button
-                    onClick={goToDatos}
-                    style={{
-                        backgroundColor: 'orange',
-                        border: 'none',
-                        padding: '10px 20px',
-                        color: 'black',
-                        borderRadius: '5px',
-                        cursor: 'pointer'
-                    }}
-                >
-                    Datos
-                </button>
-                <button
-                    onClick={goToVacaciones}
-                    style={{
-                        backgroundColor: 'orange',
-                        border: 'none',
-                        padding: '10px 20px',
-                        color: 'black',
-                        borderRadius: '5px',
-                        cursor: 'pointer'
-                    }}
-                >
-                    Vacaciones
-                </button>
-            </div>
+            <main style={{
+                flex: '1',
+                overflow: 'auto',
+                backgroundColor: '#F5F5F5'
+            }}>
+                {renderPagina()}
+            </main>
+
+            <Footer handleNavigation={handleNavigation} />
         </div>
     );
 };
+
+export default Panel;

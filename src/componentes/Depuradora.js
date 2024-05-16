@@ -1,38 +1,40 @@
 // Depuradora.js
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import DepuradoraImagen from './assets/Depuradora.png';
-import { useNavigate } from 'react-router-dom';
 import './assets/index.css';
 
-export const Depuradora = () => {
-    const navigate = useNavigate();
+// Definición del componente Depuradora
+const Depuradora = () => {
+    const  [info, setInfo] = useState({});
+    
+    async function  informacionDepuradora(){
+        try{
+            const response = await fetch('http://localhost:3006/api/depuradora/actual')
 
-    const handleLogout = () => {
-        console.log("Cierre de sesión");
-        navigate('/login');
-    };
+            const data = await response.json();
+            setInfo(data);
 
-    // Función para navegar al calendario
-    const goToCalendario = () => {
-        navigate('/calendario');
-    };
-    const goToVacaciones = () => {
-        navigate('/vacaciones');
-    };
+        }catch(error){
+            
+        }
 
+    }
+    useEffect(()=>{informacionDepuradora()}, [])
     return (
         <div className="depuradora-container">
-            <div className="header">
-                <button onClick={handleLogout}>Cerrar Sesión</button>
-                <h1>TOMASENEKOBORDA</h1>
+            <div><img src={DepuradoraImagen} alt="Diagrama de Depuradora" className="background-image" /></div>
+            <div>
+                <ul>
+                    <li>PH_Salida: {info.PH_Salida}</li>
+                    <li>CL_Salida: {info.CL_Salida}</li>
+                    <li>PH_Decantador: {info.PH_Decantador}</li>
+                    <li>CL_Decantador: {info.CL_Decantador}</li>
+                </ul>
             </div>
-            <img src={DepuradoraImagen} alt="Diagrama de Depuradora" className="background-image" />
-            <div className="button-panel">
-                <button>Depuradora</button>
-                <button onClick={goToCalendario}>Calendario</button> {/* Navega al calendario */}
-                <button>Datos</button>
-                <button onClick={goToVacaciones}>Vacaciones</button>
-            </div>
+            
         </div>
     );
 };
+
+
+export default Depuradora;
