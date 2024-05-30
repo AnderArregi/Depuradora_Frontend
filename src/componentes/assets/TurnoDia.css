@@ -1,0 +1,55 @@
+/* Asume que estos estilos van en tu archivo index.css */
+.turno-dia-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #333; /* Color de fondo oscuro */
+}
+.date-display{
+    color: white;
+    font-size: 30px;
+
+}
+.content {
+    text-align: center;
+    background-color: #444; /* Fondo ligeramente más claro para el contenido */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    
+}
+
+.button-turno {
+    background-color: #FFA500; /* Color naranja para los botones */
+    color: white;
+    font-size: 18px;
+    border: none;
+    padding: 20px 40px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.button-turno:hover {
+    background-color: #CC8400; /* Color más oscuro al pasar el mouse */
+    padding: 20px 20px;
+    
+}
+
+.button-back {
+    margin-top: 20px;
+    background-color: #FFA500;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.footer {
+    margin-top: 20px;
+}

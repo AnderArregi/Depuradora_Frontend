@@ -6,6 +6,8 @@ import Depuradora from './Depuradora';
 import MiCalendario from './MiCalendario'; 
 import  Datos  from './Datos';
 import Vacaciones from './Vacaciones';
+import TurnoDia from './TurnoDia';
+import Formulario from './Formulario';
 
 
 function App() {
@@ -15,10 +17,12 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="login" element={<Login />} />
         <Route path="nuevoPass" element={<NuevoPass />} />
-        <Route path="depuradora" element={<Panel activePage={"depuradora"}/>} />
-        <Route path="calendario" element={<Panel activePage={"calendario"}/>} /> 
-        <Route path="datos" element={<Panel activePage={"datos"} />} />
-        <Route path="vacaciones" element={<Panel activePage={"vacaciones"} />} />
+        <Route path="depuradora/:usuarioId" element={<Panel activePage={"depuradora"}/>} />
+        <Route path="calendario/:usuarioId" element={<Panel activePage={"calendario"}/>} /> 
+        <Route path="datos/:usuarioId" element={<Panel activePage={"datos"} />} />
+        <Route path="vacaciones/:usuarioId" element={<Panel activePage={"vacaciones"} />} />
+        <Route path="turno/:usuarioId/:fecha" element={<TurnoDia/>} />
+        <Route path="formulario" element={<Formulario/>} />
       </Routes>
     </BrowserRouter>
   );

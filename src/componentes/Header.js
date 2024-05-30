@@ -1,18 +1,25 @@
 // Header.js
-import React from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const Header = () => {
+const Header = ({usuarioId}) => {
     const navigate = useNavigate();
-    const{usuarioId} = useParams();
+    const [nombreUsuario, setUsuario]= useState('');
+    useEffect(()=> {
+        obtenerNombreUsuario();
+    }, []);
+    
     const obtenerNombreUsuario = async ()=>{
         try{
+            console.log(usuarioId)
             const response = await fetch(`http://localhost:3006/api/usuario/${usuarioId}`)
             
             const data = await response.json();
-            return data.nambre;
+            console.log(data.nombre)
+            setUsuario(data.nombre);
 
         }catch(error){
+            console.log(error)
             handleLogout();   
         }    
     }
@@ -49,7 +56,7 @@ const Header = () => {
             </button>
             {/* Título centrado */}
             <h1 style={{ color: 'orange', margin: 0 }}>TOMASENEKOBORDA</h1>
-            {/*<p>Usuario: {obtenerNombreUsuario()}</p>*/}
+            <p style={{ position: 'absolute', right: '80px', color: 'orange', margin: 0 }}>Usuario: {nombreUsuario}</p>
         </header>
     );
 };

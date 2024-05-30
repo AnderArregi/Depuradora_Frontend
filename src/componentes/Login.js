@@ -26,7 +26,7 @@ export const Login = () => {
             const data = await response.json();
 
             if (response.ok) {
-                navigate(`/depuradora?usuarioId=${data.user.id}`);
+                navigate(`/depuradora/${data.user.id}`);
             } else {
                 console.log('Error al iniciar sesión:', data.message);
             }

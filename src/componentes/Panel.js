@@ -1,6 +1,6 @@
 // Panel.js
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
 import Depuradora from './Depuradora'; 
@@ -11,7 +11,8 @@ import './assets/index.css';
 
 const Panel = ({ activePage }) => {
     const navigate = useNavigate();
-
+    const{usuarioId} = useParams();
+    console.log(usuarioId)
     const handleNavigation = (route) => {
         navigate(`/${route}`);
     };
@@ -21,11 +22,12 @@ const Panel = ({ activePage }) => {
             case 'depuradora':
                 return <Depuradora />;
             case 'calendario':
-                return <MiCalendario />;
+                return <MiCalendario  usuarioId={usuarioId}/>;
             case 'datos':
                 return <Datos />;
             case 'vacaciones':
                 return <Vacaciones />;
+    
             default:
                 return <Depuradora />;
         }
@@ -37,7 +39,7 @@ const Panel = ({ activePage }) => {
 
     return (
         <div className="panel-container" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-            <Header onLogout={handleLogout} />
+            <Header onLogout={handleLogout} usuarioId={usuarioId} />
 
             <main style={{
                 flex: '1',
@@ -47,7 +49,7 @@ const Panel = ({ activePage }) => {
                 {renderPagina()}
             </main>
 
-            <Footer handleNavigation={handleNavigation} />
+            <Footer handleNavigation={handleNavigation} usuarioId={usuarioId} rutaSeleccionada={activePage} />
         </div>
     );
 };

@@ -1,18 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const Footer = () => {
+const Footer = ({ usuarioId, rutaSeleccionada} ) => {
     const navigate = useNavigate();
-    const [activeRoute, setActiveRoute] = useState('/depuradora');  // Define la ruta inicial activa
-
     const handleNavigation = (route) => {
-        setActiveRoute(route);  // Actualiza la ruta activa
         navigate(route);
     };
 
-    // Función para generar el estilo de los botones basado en si están activos
     const getButtonStyle = (route) => ({
-        backgroundColor: route === activeRoute ? '#E65100' : 'orange',  // Naranja más oscuro si está activo
+        backgroundColor: route === rutaSeleccionada ? '#E65100' : 'orange',  // Naranja más oscuro si está activo
         color: 'black',
         border: 'none',
         padding: '10px 20px',
@@ -25,26 +21,26 @@ const Footer = () => {
         <footer style={{ backgroundColor: '#2C2C2C', padding: '10px', display: 'flex', justifyContent: 'center' }}>
             <div style={{ display: 'flex', gap: '10px' }}>
                 <button
-                    onClick={() => handleNavigation('/depuradora')}
-                    style={getButtonStyle('/depuradora')}
+                    onClick={() => handleNavigation(`/depuradora/${usuarioId}`)}
+                    style={getButtonStyle('depuradora')}
                 >
                     Depuradora
                 </button>
                 <button
-                    onClick={() => handleNavigation('/calendario')}
-                    style={getButtonStyle('/calendario')}
+                    onClick={() => handleNavigation(`/calendario/${usuarioId}`)}
+                    style={getButtonStyle('calendario')}
                 >
                     Calendario
                 </button>
                 <button
-                    onClick={() => handleNavigation('/datos')}
-                    style={getButtonStyle('/datos')}
+                    onClick={() => handleNavigation(`/datos/${usuarioId}`)}
+                    style={getButtonStyle('datos')}
                 >
                     Datos
                 </button>
                 <button
-                    onClick={() => handleNavigation('/vacaciones')}
-                    style={getButtonStyle('/vacaciones')}
+                    onClick={() => handleNavigation(`/vacaciones/${usuarioId}`)}
+                    style={getButtonStyle('vacaciones')}
                 >
                     Vacaciones
                 </button>
