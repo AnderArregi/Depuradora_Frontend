@@ -22,7 +22,7 @@ function App() {
         <Route path="datos/:usuarioId" element={<Panel activePage={"datos"} />} />
         <Route path="vacaciones/:usuarioId" element={<Panel activePage={"vacaciones"} />} />
         <Route path="turno/:usuarioId/:fecha" element={<TurnoDia/>} />
-        <Route path="formulario" element={<Formulario/>} />
+        <Route path="/formulario/:usuarioId/:fecha/:turno" element={<Formulario />} />
       </Routes>
     </BrowserRouter>
   );

@@ -24,25 +24,37 @@ const Footer = ({ usuarioId, rutaSeleccionada} ) => {
                     onClick={() => handleNavigation(`/depuradora/${usuarioId}`)}
                     style={getButtonStyle('depuradora')}
                 >
-                    Depuradora
+                    DEPURADORA
                 </button>
                 <button
                     onClick={() => handleNavigation(`/calendario/${usuarioId}`)}
                     style={getButtonStyle('calendario')}
                 >
-                    Calendario
+                    CALENDARIO
                 </button>
                 <button
                     onClick={() => handleNavigation(`/datos/${usuarioId}`)}
                     style={getButtonStyle('datos')}
                 >
-                    Datos
+                    DATOS
                 </button>
                 <button
                     onClick={() => handleNavigation(`/vacaciones/${usuarioId}`)}
                     style={getButtonStyle('vacaciones')}
                 >
-                    Vacaciones
+                    VACACIONES
+                </button>
+                <button
+                    /*onClick={() => handleNavigation(`/vacaciones/${usuarioId}`)}*/
+                    style={getButtonStyle('decantador')}
+                >
+                    AVERIAS
+                </button>
+                <button
+                    /*onClick={() => handleNavigation(`/vacaciones/${usuarioId}`)}*/
+                    style={getButtonStyle('decantador')}
+                >
+                    DECANTADOR
                 </button>
             </div>
         </footer>

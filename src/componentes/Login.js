@@ -51,7 +51,7 @@ export const Login = () => {
                 <h2 style={{ textAlign: 'center', margin: '0 0 20px 0' }}>TOMASENEKOBORDA</h2>
                 <form onSubmit={handleSubmit}>
                     <div style={{ marginBottom: '10px' }}>
-                        <label htmlFor="usuario">Usuario:</label><br />
+                        <label htmlFor="usuario">Usuario:</label>
                         <input
                             type="text"
                             id="usuario"
@@ -59,10 +59,10 @@ export const Login = () => {
                             value={usuario}
                             onChange={(e) => setUsername(e.target.value)}
                             style={{ width: '100%', padding: '10px', backgroundColor: '#333', border: 'none', color: 'white' }}
-                        /><br />
+                        /><br/>< br/>
                     </div>
                     <div style={{ marginBottom: '20px', position: 'relative' }}>
-                        <label htmlFor="pass">Contraseña:</label><br />
+                        <label htmlFor="pass">Contraseña:</label>
                         <input
                             type={showPassword ? 'text' : 'password'}
                             id="pass"
@@ -70,7 +70,7 @@ export const Login = () => {
                             value={pass}
                             onChange={(e) => setPassword(e.target.value)}
                             style={{ width: '100%', padding: '10px', backgroundColor: '#333', border: 'none', color: 'white' }}
-                        /><br />
+                        />
                         <button
                             type="button"
                             onClick={togglePasswordVisibility}
@@ -84,7 +84,7 @@ export const Login = () => {
                                 color: 'white'
                             }}
                         >
-                            {showPassword ? '👁️' : '🙈'}
+                        {showPassword ? '👁️' : '🙈'}
                         </button>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>

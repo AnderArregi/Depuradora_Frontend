@@ -1,0 +1,71 @@
+.formulario-container {
+    display: flex;           /* Usa flexbox para alinear hijos */
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center;     /* Centra verticalmente (si deseas centrar verticalmente también) */
+    height: 100%; 
+    margin: auto;
+    padding: 20px;
+    background-color: #333; 
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  .formulario-subcontainer {
+    
+    width: 90%;
+    background-color: #444; /* Fondo ligeramente más claro para el contenido */
+    border-radius: 10px;
+  }
+  .form-section {
+    
+    margin-bottom: 20px;
+  }
+  
+  label {
+    color: #FFA500;
+    display: block;
+    margin: 20px;
+    margin-bottom: 10px;
+    
+  }
+  h2, h3{
+    text-align: center;
+    color: #FFA500;
+    ;
+  
+  }
+  
+  input[type="text"], input[type="number"] {
+    width: 70%;
+    padding: 10px;
+    margin-top: 4px;
+    box-sizing: border-box;
+    border-radius: 40px;
+  }
+  
+  .submit-button {
+    background-color: rgb(40, 186, 0);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  .submit-button:hover {
+    background-color: rgb(3, 125, 17);
+  }
+  .form-section {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Divide el espacio en tres columnas iguales */
+    gap: 5px; /* Espacio entre las columnas */
+    margin-bottom: 10px; /* Espacio debajo de cada sección para separación */
+  }
+  
+  .label-container {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px; /* Espacio entre cada campo */
+  }
+  .footer{
+    display: flex;
+    align-items: center;            
+  }

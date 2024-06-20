@@ -76,7 +76,9 @@ code {
   width: 100%;
   overflow: hidden; /* Oculta el desbordamiento */
 }
-
+.panel-container {
+  width: 100%;  
+}
 
 .panel-container > header {
   height: 10vh;
@@ -179,40 +181,4 @@ code {
 .calendario-cuadrado{
   padding: 2px; /* Margen uniforme en todos los lados */  
 }
-.formulario-container {
-  width: 80%;
-  margin: auto;
-  padding: 20px;
-  background-color: #f4f4f4;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
 
-.form-section {
-  margin-bottom: 20px;
-}
-
-label {
-  display: block;
-  margin-bottom: 10px;
-}
-
-input[type="text"], input[type="number"] {
-  width: 100%;
-  padding: 8px;
-  margin-top: 4px;
-  box-sizing: border-box;
-}
-
-.submit-button {
-  background-color: #007BFF;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-}
-.submit-button:hover {
-  background-color: #0056b3;
-}
