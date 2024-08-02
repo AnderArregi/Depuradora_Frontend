@@ -1,24 +1,44 @@
 import React, { useEffect, useState } from 'react';
 import { PowerBIEmbed } from 'powerbi-client-react';
 import { models } from 'powerbi-client';
-import axios from 'axios'; // Asegúrate de instalar axios si decides usarlo
+import axios from 'axios';
 
 const Datos = () => {
     const [embedConfig, setEmbedConfig] = useState(null);
-    
+
     useEffect(() => {
         const getPowerBIToken = async () => {
             try {
-                const response = await axios.get('/api/powerbi-token'); // Ajusta esta URL a tu configuración
+                // Suponiendo que tu servidor local devuelve el token de Power BI
+                const response = await axios.get('http://localhost:3006/api/powerbi-token');
                 console.log(response.data);  // Verifica que esta línea imprime los datos esperados
-                const { accessToken, embedUrl, reportId } = response.data;
-
+                const { accessToken, embedUrl, reportId, groupId } = response.data;
+                const tokenEmbedUrl = `https://api.powerbi.com/v1.0/myorg/groups/${groupId}/reports/${reportId}/GenerateToken`
+                const tokenResponse = await axios.post(tokenEmbedUrl, {
+                    accessLevel: 'View'
+                  }, {
+                    headers: {
+                      'Authorization': `Bearer ${accessToken}`,
+                      'Content-Type': 'application/json'
+                    }
+                  });
+              
                 setEmbedConfig({
                     type: 'report',
                     id: reportId,
                     embedUrl: embedUrl,
                     tokenType: models.TokenType.Embed,
-                    accessToken: accessToken
+                    accessToken: tokenResponse.data.token,
+                    settings: {
+                        panes: {
+                            filters: {
+                                visible: false
+                            },
+                            pageNavigation: {
+                                visible: false
+                            }
+                        }
+                    }
                 });
             } catch (error) {
                 console.error('Error fetching PowerBI token:', error);
@@ -33,10 +53,11 @@ const Datos = () => {
     }
 
     return (
-        <div>
+        <div style={{ height: '100vh' }}>
             <h1>Informe de Power BI</h1>
             <PowerBIEmbed
                 embedConfig={embedConfig}
+                cssClassName={"embed-container"}
                 eventHandlers={
                     new Map([
                         ['loaded', function () { console.log('Report loaded'); }],

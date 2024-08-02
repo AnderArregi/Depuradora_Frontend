@@ -1,0 +1,22 @@
+/* BotonVacacion.css */
+.vacation-button {
+    width: 100px;  /* Ajusta según tus necesidades */
+    height: 100px; /* Ajusta según tus necesidades */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 50%; /* Esto hará que el botón sea redondo */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.day-circle {
+    width: 70%; /* Tamaño del círculo dentro del botón */
+    height: 70%; /* Tamaño del círculo dentro del botón */
+    background: white; /* Color de fondo del círculo */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%; /* Esto hará que el interior también sea redondo */
+    font-size: 1.2rem; /* Ajusta según tus necesidades */
+}

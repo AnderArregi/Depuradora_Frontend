@@ -26,7 +26,9 @@ const MiCalendario = ({ usuarioId }) => {
     }
     // Función para renderizar los botones en las celdas del calendario
     const renderDayButton = ({ date, view }) => {
+    
         if (view === 'month') {
+            console.log(date)
             return (
                 <BotonCalendario
                     day={date.getDate()}

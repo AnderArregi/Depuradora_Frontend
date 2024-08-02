@@ -25,17 +25,19 @@ const TurnoDia = () => {
     useEffect(() => {
 
         async function datosDia() {
+            console.log(fechaFormatted)
             const response = await fetch(`http://localhost:3006/api/turno/${fechaFormatted}`);
+            
             if (response.ok) {
                 const datos = await response.json();
                 datos.forEach(element => {
-                    if (element.DiaTurno.includes('1M')) {
+                    if (element.DiaTurno.includes('1M') && element.usuario != usuarioId) {
                         setTurnoMañanaLibre(false);
                     }
-                    if (element.DiaTurno.includes('2T')) {
+                    if (element.DiaTurno.includes('2T') && element.usuario != usuarioId) {
                         setTurnoTardeLibre(false);
                     }
-                    if (element.DiaTurno.includes('3N')) {
+                    if (element.DiaTurno.includes('3N') && element.usuario != usuarioId) {
                         setTurnoNocheLibre(false);
                     }
                     // if(element.usuario)
@@ -54,16 +56,13 @@ const TurnoDia = () => {
             ) : (
                 <div className="content">
                     <div className="date-display">FECHA: {fecha}</div>
-                    {turnoMañanaLibre && (
-                        <button className="button-turno" onClick={() => navigateToFormulario('1M')}>TURNO DE MAÑANA</button>
-                    )}
-                    {turnoTardeLibre && (
-                        <button className="button-turno" onClick={() => navigateToFormulario('2T')}>TURNO DE TARDE</button>
 
-                    )}
-                    {turnoNocheLibre && (
-                        <button className="button-turno" onClick={() => navigateToFormulario('3N')}>TURNO DE NOCHE</button>
-                    )}
+                    <button className="button-turno" disabled={(!turnoMañanaLibre )} onClick={() => navigateToFormulario('1M')}>TURNO DE MAÑANA</button>
+
+                    <button className="button-turno" disabled={(!turnoTardeLibre)} onClick={() => navigateToFormulario('2T')}>TURNO DE TARDE</button>
+
+                    <button className="button-turno" disabled={(!turnoNocheLibre)} onClick={() => navigateToFormulario('3N')}>TURNO DE NOCHE</button>
+
                 </div>
             )
             }

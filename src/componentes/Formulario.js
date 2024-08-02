@@ -1,8 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './assets/formulario.css';
 import { useNavigate, useParams } from 'react-router-dom';
+
+
 const Formulario = () => {
     const { usuarioId, fecha, turno } = useParams();
+    console.log(fecha)
+    console.log(turno)
+    console.log(usuarioId)
     const [formData, setFormData] = useState({
         diaTurno: `${fecha} ${turno}`,
         usuario: usuarioId,
@@ -31,30 +36,64 @@ const Formulario = () => {
         M3_Final_Turno: '',
         M3_h: ''
     });
+
     const navigate = useNavigate();
+
+    useEffect(() => {
+        // Cargar los datos del turno al cargar el componente
+        const cargarDatos = async () => {
+            try {
+                
+                const url = `http://localhost:3006/api/formulario/${fecha}/${turno}`;
+                console.log('Fetching:', url); // Para verificar la URL completa
+                const response = await fetch(url);
+        
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+        
+                const datos = await response.json();
+                setFormData(datos); // Actualiza el formulario con los datos recibidos
+            } catch (error) {
+                console.error('Error al cargar los datos del turno:', error);
+            }
+        };
+        
+
+        cargarDatos();
+    }, [usuarioId, fecha, turno]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const url = `http://localhost:3006/api/formulario/${fecha}/${turno}`;
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                const data = await response.json();
+                setFormData(data); // Asumiendo que el servidor devuelve directamente el objeto adecuado
+            } catch (error) {
+                console.error('Error al cargar los datos del formulario:', error);
+            }
+        };
+
+        fetchData();
+    }, [fecha, turno, usuarioId]);
+
+
+
     const handleChange = (e) => {
         const { name, type, checked, value } = e.target;
-        // Verifica si el campo es de tipo decimal y contiene una coma
-        const isDecimalField = ['phSalida', 'clSalida', 'phDecantador', 'clDecantador', 'phOxidacion', 'phLaboratorio', 'zinc', 'hierro', 'cobre'].includes(name);
-        const valorNormalizado = isDecimalField ? value.replace(',', '.') : value;
-
-        // Establece un valor predeterminado para campos numéricos si están vacíos
-        if (type === 'number' && (valorNormalizado === '' || valorNormalizado === null)) {
-            valorNormalizado = '0';  // Usa '0' como valor predeterminado para campos numéricos
-        }
-
-
         setFormData(prevFormData => ({
             ...prevFormData,
-            [name]: type === 'checkbox' ? checked : valorNormalizado
+            [name]: type === 'checkbox' ? checked : value
         }));
     };
-
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            console.log(JSON.stringify(formData))
             const response = await fetch('http://localhost:3006/api/formulario', {
                 method: 'POST',
                 headers: {
@@ -62,17 +101,54 @@ const Formulario = () => {
                 },
                 body: JSON.stringify(formData)
             });
-            if (response.status === 201) {
+        console.log(JSON.stringify(formData))
+            if (response.ok) {
                 alert('Datos guardados con éxito!');
                 navigate(`/calendario/${usuarioId}`);
+            } else {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Error desconocido al guardar');
             }
-            const data = await response.json();
-            alert(data.massage)
         } catch (error) {
-            console.error('Error al enviar datos: ', error);
-            alert('Error al guardar los datos.');
+            console.error('Error al enviar datos:', error);
+            alert('Error al guardar los datos: ' + error.message);
         }
     };
+    const actualizarDatos = async () => {
+        try {
+            
+           
+            const fechaFormatted = fecha.replace(/-/g, '/');
+            console.log(usuarioId)
+            console.log(fechaFormatted)
+            console.log(turno)
+
+            const formDataJson = JSON.stringify(formData);
+            console.log('Actualizando datos con:', formData);
+
+            console.log('El json:', formDataJson);
+
+            const response = await fetch(`http://localhost:3006/api/formulario/${usuarioId}/${fechaFormatted}/${turno}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: formDataJson
+            });
+    
+            if (response.ok) {
+                alert('Datos actualizados con éxito!');
+                navigate(`/calendario/${usuarioId}`);
+            } else {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Error desconocido al actualizar');
+            }
+        } catch (error) {
+            console.error('Error al actualizar datos:', error);
+            alert('Error al actualizar los datos: ' + error.message);
+        }
+    }
+    
 
     return (
         <div className="formulario-container">
@@ -191,7 +267,9 @@ const Formulario = () => {
 
                     </div>
                     <div className="footer">
-                        <button type="submit" className="submit-button">Enviar Datos</button>
+                        <button type="submit" className="submit-button" >Enviar Datos</button>
+                        <button type='button' onClick={actualizarDatos} >Actualizar</button>
+
                         <button className="button-back" onClick={() => navigate(`/calendario/${usuarioId}`)}>ATRÁS</button>
                     </div>
                 </form>
