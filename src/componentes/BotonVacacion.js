@@ -1,14 +1,19 @@
 import React from 'react';
 import './assets/BotonVacacion.css'; // Asegúrate de crear este archivo CSS o ajusta el import según tus necesidades
+import { useState } from 'react';
 
-const BotonVacacion = ({ day, color1, color2, color3, onClick }) => {
+
+const BotonVacacion = ({ day, color, onClick, turno, planta, handleMouseEnter, handleMouseLeave}) => {
+    
     return (
-        <div className="vacation-button" 
-             style={{ 
-                 background: `linear-gradient(to right, ${color1} 33.3%, ${color2} 33.3%, ${color3} 33.3%)` 
-             }}
-             onClick={onClick}>
-            <div className="day-circle">
+        <div className="vacation-button"
+            style={{
+                background: ` ${color}`
+            }}
+            onClick={onClick}
+            onMouseEnter={(e) => handleMouseEnter(`turno: ${turno}\nsitio: ${planta}`, e)}
+            onMouseLeave={handleMouseLeave}>
+            <div className="vacacion-circulo">
                 {day}
             </div>
         </div>

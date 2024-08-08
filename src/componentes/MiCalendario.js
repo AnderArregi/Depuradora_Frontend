@@ -28,7 +28,6 @@ const MiCalendario = ({ usuarioId }) => {
     const renderDayButton = ({ date, view }) => {
     
         if (view === 'month') {
-            console.log(date)
             return (
                 <BotonCalendario
                     day={date.getDate()}

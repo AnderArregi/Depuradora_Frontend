@@ -26,6 +26,10 @@ export const Login = () => {
             const data = await response.json();
 
             if (response.ok) {
+                if (data.token) {
+                    const token = data.token;
+                    document.cookie = `token = ${ token }; path =/; secure; samesite=strict;`
+                }
                 navigate(`/depuradora/${data.user.id}`);
             } else {
                 console.log('Error al iniciar sesión:', data.message);
@@ -59,7 +63,7 @@ export const Login = () => {
                             value={usuario}
                             onChange={(e) => setUsername(e.target.value)}
                             style={{ width: '100%', padding: '10px', backgroundColor: '#333', border: 'none', color: 'white' }}
-                        /><br/>< br/>
+                        /><br />< br />
                     </div>
                     <div style={{ marginBottom: '20px', position: 'relative' }}>
                         <label htmlFor="pass">Contraseña:</label>
@@ -84,7 +88,7 @@ export const Login = () => {
                                 color: 'white'
                             }}
                         >
-                        {showPassword ? '👁️' : '🙈'}
+                            {showPassword ? '👁️' : '🙈'}
                         </button>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>

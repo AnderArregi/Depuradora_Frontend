@@ -8,7 +8,8 @@ import  Datos  from './Datos';
 import Vacaciones from './Vacaciones';
 import TurnoDia from './TurnoDia';
 import Formulario from './Formulario';
-
+import TurnoDiaVacacion from './TurnoDiaVacacion';
+import Decantador from './Decantador';
 
 function App() {
   return (
@@ -21,8 +22,11 @@ function App() {
         <Route path="calendario/:usuarioId" element={<Panel activePage={"calendario"}/>} /> 
         <Route path="datos/:usuarioId" element={<Panel activePage={"datos"} />} />
         <Route path="vacaciones/:usuarioId" element={<Panel activePage={"vacaciones"} />} />
+        <Route path="vacaciones/:usuarioId/:fecha"  element={<TurnoDiaVacacion/>} />
         <Route path="turno/:usuarioId/:fecha" element={<TurnoDia/>} />
         <Route path="/formulario/:usuarioId/:fecha/:turno" element={<Formulario />} />
+        <Route path="decantador" element={<Decantador/>} />
+
       </Routes>
     </BrowserRouter>
   );

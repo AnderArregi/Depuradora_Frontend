@@ -41,7 +41,7 @@
     border-radius: 40px;
   }
   
-  .submit-button {
+  .enviar-boton {
     background-color: rgb(40, 186, 0);
     color: white;
     padding: 10px 20px;
@@ -50,8 +50,39 @@
     cursor: pointer;
     font-size: 16px;
   }
-  .submit-button:hover {
+  .enviar-boton:hover {
     background-color: rgb(3, 125, 17);
+  }
+  .actualizar-boton {
+    background-color: rgb(40, 186, 0);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  .actualizar-boton:hover {
+    background-color: rgb(3, 125, 17);
+  }
+  .borrar-boton {
+    background-color: rgb(238, 0, 0);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  .atras-boton {
+    background-color: #FFA500;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
   }
   .form-section {
     display: grid;
@@ -67,5 +98,7 @@
   }
   .footer{
     display: flex;
-    align-items: center;            
+    align-items: center;   
+    justify-content: center; 
+    gap: 20px;         
   }

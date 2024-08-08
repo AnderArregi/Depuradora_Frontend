@@ -11,22 +11,25 @@ import './assets/index.css';
 
 const Panel = ({ activePage }) => {
     const navigate = useNavigate();
-    const{usuarioId} = useParams();
-    console.log(usuarioId)
+    const{usuarioId, token} = useParams();
     const handleNavigation = (route) => {
         navigate(`/${route}`);
     };
-
+    const getCookie = (name) => {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+    }
     const renderPagina = () => {
         switch (activePage) {
             case 'depuradora':
-                return <Depuradora />;
+                return <Depuradora token={getCookie('token')}/>;
             case 'calendario':
                 return <MiCalendario  usuarioId={usuarioId}/>;
             case 'datos':
                 return <Datos />;
             case 'vacaciones':
-                return <Vacaciones />;
+                return <Vacaciones usuarioId={usuarioId}/>;
     
             default:
                 return <Depuradora />;

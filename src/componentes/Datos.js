@@ -1,75 +1,50 @@
-import React, { useEffect, useState } from 'react';
-import { PowerBIEmbed } from 'powerbi-client-react';
-import { models } from 'powerbi-client';
-import axios from 'axios';
+import React, { useEffect } from 'react';
 
 const Datos = () => {
-    const [embedConfig, setEmbedConfig] = useState(null);
-
     useEffect(() => {
-        const getPowerBIToken = async () => {
-            try {
-                // Suponiendo que tu servidor local devuelve el token de Power BI
-                const response = await axios.get('http://localhost:3006/api/powerbi-token');
-                console.log(response.data);  // Verifica que esta línea imprime los datos esperados
-                const { accessToken, embedUrl, reportId, groupId } = response.data;
-                const tokenEmbedUrl = `https://api.powerbi.com/v1.0/myorg/groups/${groupId}/reports/${reportId}/GenerateToken`
-                const tokenResponse = await axios.post(tokenEmbedUrl, {
-                    accessLevel: 'View'
-                  }, {
-                    headers: {
-                      'Authorization': `Bearer ${accessToken}`,
-                      'Content-Type': 'application/json'
-                    }
-                  });
-              
-                setEmbedConfig({
-                    type: 'report',
-                    id: reportId,
-                    embedUrl: embedUrl,
-                    tokenType: models.TokenType.Embed,
-                    accessToken: tokenResponse.data.token,
-                    settings: {
-                        panes: {
-                            filters: {
-                                visible: false
-                            },
-                            pageNavigation: {
-                                visible: false
-                            }
-                        }
-                    }
-                });
-            } catch (error) {
-                console.error('Error fetching PowerBI token:', error);
+        // Cargar Google Charts
+        const loadGoogleCharts = () => {
+            if (!window.google) {
+                const script = document.createElement('script');
+                script.src = 'https://www.gstatic.com/charts/loader.js';
+                script.onload = () => {
+                    window.google.charts.load('current', {'packages':['corechart']});
+                    window.google.charts.setOnLoadCallback(drawChart);
+                };
+                document.head.appendChild(script);
+            } else {
+                window.google.charts.load('current', {'packages':['corechart']});
+                window.google.charts.setOnLoadCallback(drawChart);
             }
         };
 
-        getPowerBIToken();
+        const drawChart = () => {
+            fetch('http://localhost:3006/api/datos')
+                .then(response => response.json())
+                .then(data => {
+                    const chartData = [['usuario', 'M3_Tratados']];
+                    data.forEach(item => {
+                        chartData.push([item.usuario, parseFloat(item.M3_Tratados)]);
+                    });
+
+                    const dataTable = window.google.visualization.arrayToDataTable(chartData);
+                    const options = {
+                        title: 'M3 Tratados por Usuario',
+                        is3D: true
+                    };
+                    const chart = new window.google.visualization.PieChart(document.getElementById('myChart'));
+                    chart.draw(dataTable, options);
+                })
+                .catch(error => {
+                    console.error('Error al obtener los datos:', error);
+                });
+        };
+
+        loadGoogleCharts();
     }, []);
 
-    if (!embedConfig) {
-        return <div>Loading...</div>;
-    }
-
     return (
-        <div style={{ height: '100vh' }}>
-            <h1>Informe de Power BI</h1>
-            <PowerBIEmbed
-                embedConfig={embedConfig}
-                cssClassName={"embed-container"}
-                eventHandlers={
-                    new Map([
-                        ['loaded', function () { console.log('Report loaded'); }],
-                        ['rendered', function () { console.log('Report rendered'); }],
-                        ['error', function (event) { console.log(event.detail); }]
-                    ])
-                }
-                getEmbeddedComponent={(embeddedReport) => {
-                    window.report = embeddedReport;
-                }}
-            />
-        </div>
+        <div id="myChart" style={{ width: '100%', maxWidth: '600px', height: '500px' }}></div>
     );
 };
 

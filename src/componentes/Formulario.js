@@ -81,7 +81,27 @@ const Formulario = () => {
         fetchData();
     }, [fecha, turno, usuarioId]);
 
+     // Calcula M3 Tratados cuando cambia M3_Principio_Turno o M3_Final_Turno
+     useEffect(() => {
+        if (formData.M3_Principio_Turno && formData.M3_Final_Turno) {
+            const m3TratadasTurno = formData.M3_Final_Turno - formData.M3_Principio_Turno;
+            setFormData(prevFormData => ({
+                ...prevFormData,
+                m3TratadasTurno: m3TratadasTurno >= 0 ? m3TratadasTurno : '' // Solo actualiza si el resultado es positivo
+            }));
+        }
+    }, [formData.M3_Principio_Turno, formData.M3_Final_Turno]);
 
+    // Calcular M3 por hora cuando cambian M3 Tratadas o Horas Tratadas
+    useEffect(() => {
+        if (formData.m3TratadasTurno && formData.horasTratadasTurno && formData.horasTratadasTurno !== '0') {
+            const m3PorHora = formData.m3TratadasTurno / formData.horasTratadasTurno;
+            setFormData(prevFormData => ({
+                ...prevFormData,
+                M3_h: m3PorHora.toFixed(2) // Redondear a dos decimales para precisión
+            }));
+        }
+    }, [formData.m3TratadasTurno, formData.horasTratadasTurno]);
 
     const handleChange = (e) => {
         const { name, type, checked, value } = e.target;
@@ -116,17 +136,8 @@ const Formulario = () => {
     };
     const actualizarDatos = async () => {
         try {
-            
-           
             const fechaFormatted = fecha.replace(/-/g, '/');
-            console.log(usuarioId)
-            console.log(fechaFormatted)
-            console.log(turno)
-
             const formDataJson = JSON.stringify(formData);
-            console.log('Actualizando datos con:', formData);
-
-            console.log('El json:', formDataJson);
 
             const response = await fetch(`http://localhost:3006/api/formulario/${usuarioId}/${fechaFormatted}/${turno}`, {
                 method: 'PUT',
@@ -148,6 +159,25 @@ const Formulario = () => {
             alert('Error al actualizar los datos: ' + error.message);
         }
     }
+    
+    const borrarFormulario = async () => {
+        try {
+            const response = await fetch(`http://localhost:3006/api/formulario/${formData.diaTurno}`, {
+                method: 'DELETE'
+            });
+    
+            if (response.ok) {
+                alert('Formulario borrado con éxito');
+                navigate(`/calendario/${usuarioId}`); // Redirige al usuario después de eliminar
+            } else {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Error desconocido al borrar');
+            }
+        } catch (error) {
+            console.error('Error al borrar el formulario:', error);
+            alert('Error al borrar el formulario: ' + error.message);
+        }
+    };
     
 
     return (
@@ -267,10 +297,10 @@ const Formulario = () => {
 
                     </div>
                     <div className="footer">
-                        <button type="submit" className="submit-button" >Enviar Datos</button>
-                        <button type='button' onClick={actualizarDatos} >Actualizar</button>
-
-                        <button className="button-back" onClick={() => navigate(`/calendario/${usuarioId}`)}>ATRÁS</button>
+                        <button type="submit" className="enviar-boton" >ENVIAR DATOS</button>
+                        <button type='button' className="actualizar-boton"onClick={actualizarDatos} >ACTUALIZAR</button>
+                        <button type="button" className="borrar-boton" onClick={borrarFormulario}>BORRAR</button>
+                        <button className="atras-boton" onClick={() => navigate(`/calendario/${usuarioId}`)}>ATRÁS</button>
                     </div>
                 </form>
             </div>

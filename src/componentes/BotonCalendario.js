@@ -5,7 +5,7 @@ const BotonCalendario = ({ day, color1, color2, onClick }) => {
         <div className="calendar-button" 
              style={{ background: `linear-gradient(to bottom, ${color1} 50%, ${color2} 50%)` }}
              onClick={onClick}>
-            <div className="day-circle">
+            <div className="vacacion-circulo">
                 {day}
             </div>
         </div>

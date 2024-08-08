@@ -4,23 +4,27 @@ import DepuradoraImagen from './assets/Depuradora.jpg';
 import './assets/index.css';
 
 // Definición del componente Depuradora
-const Depuradora = () => {
+const Depuradora = ({token}) => {
     const [info, setInfo] = useState({});
     
     async function informacionDepuradora() {
         try {
-            const response = await fetch('http://localhost:3006/api/depuradora/actual');
+            const response = await fetch('http://localhost:3006/api/depuradora/actual', {
+                method:'GET',
+                headers:{'x-access-token': token}
+            });
+
             const data = await response.json();
             setInfo(data);
         } catch (error) {
             console.error("Error fetching depuradora information:", error);
         }
     }
-
+    
     useEffect(() => {
         informacionDepuradora();
     }, []);
-
+    
     return (
         <div className="depuradora-container">
             <div className="imagen-container">
