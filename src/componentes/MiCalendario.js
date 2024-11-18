@@ -32,8 +32,8 @@ const MiCalendario = ({ usuarioId }) => {
                 <BotonCalendario
                     day={date.getDate()}
                     onChange={cambiarFecha}
-                    color1="#E72900" // Color por defecto
-                    color2="#1778FC" // Color por defecto
+                    color1="#FFA500" // Color por defecto
+                    color2="#878889" // Color por defecto
                 />
             );
         }

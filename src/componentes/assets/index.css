@@ -38,7 +38,13 @@ code {
   border-radius: 5px;
   color: black;
 }
-
+.vacacion-nombres button {
+  background-color: orange;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  color: black;
+}
 .header h1 {
   text-align: center; /* Centra el texto dentro del contenedor */
   margin: 0;
@@ -111,45 +117,7 @@ code {
     color: white; /* Color de texto para el footer */
 }
 /* assets/index.css */
-.depuradora-container {
-  position: relative;
-  width: 100%;
-  height: 100vh;
-  background-color: #333;
-  color: #FFA500;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 
-.imagen-container {
-  position: relative;
-}
-
-.background-image {
-  width: 100%;
-  height: auto;
-}
-
-.datosimagen-overlay {
-  position: absolute;
-  top: 20px; /* Ajusta según sea necesario */
-  right: 20px; /* Ajusta según sea necesario */
-  background: rgba(0, 0, 0, 0.5); /* Fondo semi-transparente */
-  padding: 10px;
-  border-radius: 5px;
-  color: #FFA500;
-}
-
-.datosimagen-overlay ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-
-.datosimagen-overlay li {
-  margin-bottom: 10px;
-}
 
 /* assets/index.css */
 .calendario-container {
@@ -163,6 +131,7 @@ code {
   
   
 }
+
 .vacacion-container {
   display: flex;
   flex-direction: column;
@@ -170,7 +139,6 @@ code {
   justify-content: center;
   min-height: 100vh; /* Para centrar verticalmente */
   background-color: #333;
-  color: #FFA500;
   
   
 }
@@ -189,7 +157,7 @@ code {
 .vacacion-panel {
   display: flex;
   justify-content: center;
-
+  color: #FFA500;
   
 }
 .react-calendar__tile > * {
@@ -210,4 +178,31 @@ code {
   pointer-events: none;
   z-index: 10;
   white-space: nowrap;
+}
+.vacacion-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.vacacion-panel{
+  flex: 1;
+}
+.vacacion-nombres {
+  flex: 1;
+  text-align: left;
+  
+}
+/* Contenedor para organizar vacacion-panel y vacacion-nombres en una fila */
+.vacacion-body {
+  margin: 10px;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  gap: 2px; /* Ajusta este valor para controlar el espacio entre vacacion-panel y vacacion-nombres */
 }

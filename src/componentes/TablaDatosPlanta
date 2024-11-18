@@ -1,0 +1,30 @@
+const TablaDatosPlanta = ({ datos }) => {
+    return (
+        <table>
+            <thead>
+                <tr>
+                    <th>DiaTurno</th>
+                    <th>M3 Tratadas Turno</th>
+                    <th>Horas Tratadas Turno</th>
+                    <th>Horas Turno</th>
+                    <th>M3 Principio Turno</th>
+                    <th>M3 Final Turno</th>
+                    <th>M3/h</th>
+                </tr>
+            </thead>
+            <tbody>
+                {datos.map((item, index) => (
+                    <tr key={index}>
+                        <td>{item.DiaTurno}</td>
+                        <td>{item.M3_Tratadas_Turno}</td>
+                        <td>{item.Horas_Tratadas_Turno}</td>
+                        <td>{item.Horas_Turno}</td>
+                        <td>{item.M3_Principio_Turno}</td>
+                        <td>{item.M3_Final_Turno}</td>
+                        <td>{item.M3_h}</td>
+                    </tr>
+                ))}
+            </tbody>
+        </table>
+    );
+};

@@ -54,6 +54,12 @@ const Footer = ({ usuarioId, rutaSeleccionada} ) => {
                     /*onClick={() => handleNavigation(`/vacaciones/${usuarioId}`)}*/
                     style={getButtonStyle('decantador')}
                 >
+                    STOCK
+                </button>
+                <button
+                    /*onClick={() => handleNavigation(`/vacaciones/${usuarioId}`)}*/
+                    style={getButtonStyle('decantador')}
+                >
                     DECANTADOR
                 </button>
             </div>

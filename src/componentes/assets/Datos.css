@@ -1,0 +1,55 @@
+
+
+.datos-contenedor {
+    background-color: #333;
+    display: flex;
+    flex-direction: column; /* Cambia a columna para pantallas pequeñas */
+    justify-content: center;
+    align-items: center; /* Centrar en pantalla */
+    padding: 10px;
+}
+
+
+
+.tablaDatosPlanta table {
+    width: 90%; /* Ocupa todo el ancho disponible en el contenedor */
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.myChart {
+    width: 100%;
+    max-width: 60px; /* Tamaño máximo para pantallas grandes */
+    height: 20px;
+    margin-top: 20px;
+}
+
+.tablaDatosPlanta th, .tablaDatosPlanta td {
+    background-color: white;
+    border: 1px solid #FFA500; 
+        
+    
+}
+
+.tablaDatosPlanta th {
+    background-color: #FFA500; 
+    color: #333;            
+}
+
+
+
+.tablaDatosPlanta th, .tablaDatosPlanta td {
+    background-color: white;
+    border: 1px solid #FFA500; 
+    text-align: left;       
+    padding: 8px;          
+    word-wrap: break-word;  
+}
+
+.tablaDatosPlanta th {
+    background-color: #FFA500; 
+    color: #333;            
+}
+.tablaDatosPlanta h1{
+    color: #FFA500; 
+}

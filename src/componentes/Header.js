@@ -1,31 +1,48 @@
 // Header.js
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-const Header = ({usuarioId}) => {
+import { getCookie } from './utils';
+const Header = ({ usuarioId }) => {
     const navigate = useNavigate();
-    const [nombreUsuario, setUsuario]= useState('');
-    useEffect(()=> {
+    const [nombreUsuario, setUsuario] = useState('');
+    useEffect(() => {
         obtenerNombreUsuario();
     }, []);
-    
-    const obtenerNombreUsuario = async ()=>{
-        try{
-            console.log(usuarioId)
-            const response = await fetch(`http://localhost:3006/api/usuario/${usuarioId}`)
-            
+
+    const obtenerNombreUsuario = async () => {
+        try {
+            const response = await fetch(`http://localhost:3006/api/usuario/${usuarioId}`, {
+                method: 'GET',
+                headers: {
+                    'x-access-token': getCookie('token'), 
+                }
+            })
+
             const data = await response.json();
-            console.log(data.nombre)
             setUsuario(data.nombre);
 
-        }catch(error){
+        } catch (error) {
             console.log(error)
-            handleLogout();   
-        }    
+            handleLogout();
+        }
     }
+    
     // Función que maneja el cierre de sesión
-    const handleLogout = () => {
+    const handleLogout = async () => {
         console.log("Cierre de sesión");
+        const token = getCookie('token');
+        document.cookie = `token = ; path =/; secure; samesite=strict;`
+        try {
+            const response = await fetch(`http://localhost:3006/api/logout`, {
+                method: 'POST',
+                headers: {
+                    'x-access-token': token, 
+                }
+            })
+
+        } catch (error) {
+            navigate('/login');
+        }
         navigate('/login');
     };
 

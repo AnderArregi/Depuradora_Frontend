@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import './assets/index.css';
 import './assets/TurnoDia.css';
 import ClipLoader from 'react-spinners/ClipLoader';
+import { getCookie } from './utils';
 
 const TurnoDia = () => {
 
@@ -25,9 +26,15 @@ const TurnoDia = () => {
     useEffect(() => {
 
         async function datosDia() {
-            console.log(fechaFormatted)
-            const response = await fetch(`http://localhost:3006/api/turno/${fechaFormatted}`);
-            
+            const response = await fetch(`http://localhost:3006/api/turno/${fechaFormatted}`, {
+                method: 'GET',
+                headers: {
+                    'x-access-token': getCookie('token'), 
+                }
+            })
+            if(response.status === 401){
+                navigate('/')
+            } 
             if (response.ok) {
                 const datos = await response.json();
                 datos.forEach(element => {

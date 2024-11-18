@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import './assets/formulario.css';
 import { useNavigate, useParams } from 'react-router-dom';
-
+import { getCookie } from './utils';
 
 const Formulario = () => {
     const { usuarioId, fecha, turno } = useParams();
-    console.log(fecha)
-    console.log(turno)
-    console.log(usuarioId)
     const [formData, setFormData] = useState({
         diaTurno: `${fecha} ${turno}`,
         usuario: usuarioId,
@@ -42,44 +39,27 @@ const Formulario = () => {
     useEffect(() => {
         // Cargar los datos del turno al cargar el componente
         const cargarDatos = async () => {
+            const url = `http://localhost:3006/api/formulario/${fecha}/${turno}`;
             try {
-                
-                const url = `http://localhost:3006/api/formulario/${fecha}/${turno}`;
-                console.log('Fetching:', url); // Para verificar la URL completa
-                const response = await fetch(url);
-        
+                const response = await fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-access-token': getCookie('token')
+                    }
+                });
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-        
                 const datos = await response.json();
-                setFormData(datos); // Actualiza el formulario con los datos recibidos
+                setFormData(datos);
             } catch (error) {
                 console.error('Error al cargar los datos del turno:', error);
             }
         };
-        
-
         cargarDatos();
-    }, [usuarioId, fecha, turno]);
+    }, [fecha, turno]);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const url = `http://localhost:3006/api/formulario/${fecha}/${turno}`;
-            try {
-                const response = await fetch(url);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                const data = await response.json();
-                setFormData(data); // Asumiendo que el servidor devuelve directamente el objeto adecuado
-            } catch (error) {
-                console.error('Error al cargar los datos del formulario:', error);
-            }
-        };
-
-        fetchData();
-    }, [fecha, turno, usuarioId]);
 
      // Calcula M3 Tratados cuando cambia M3_Principio_Turno o M3_Final_Turno
      useEffect(() => {
@@ -117,62 +97,61 @@ const Formulario = () => {
             const response = await fetch('http://localhost:3006/api/formulario', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'x-access-token': getCookie('token')
                 },
                 body: JSON.stringify(formData)
             });
-        console.log(JSON.stringify(formData))
-            if (response.ok) {
-                alert('Datos guardados con éxito!');
-                navigate(`/calendario/${usuarioId}`);
-            } else {
+            if (!response.ok) {
                 const errorData = await response.json();
                 throw new Error(errorData.message || 'Error desconocido al guardar');
             }
+            alert('Datos guardados con éxito!');
+            navigate(`/calendario/${usuarioId}`);
         } catch (error) {
             console.error('Error al enviar datos:', error);
             alert('Error al guardar los datos: ' + error.message);
         }
     };
-    const actualizarDatos = async () => {
-        try {
-            const fechaFormatted = fecha.replace(/-/g, '/');
-            const formDataJson = JSON.stringify(formData);
 
+    const actualizarDatos = async () => {
+        const fechaFormatted = fecha.replace(/-/g, '/');
+        const formDataJson = JSON.stringify(formData);
+        try {
             const response = await fetch(`http://localhost:3006/api/formulario/${usuarioId}/${fechaFormatted}/${turno}`, {
                 method: 'PUT',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'x-access-token': getCookie('token')
                 },
                 body: formDataJson
             });
-    
-            if (response.ok) {
-                alert('Datos actualizados con éxito!');
-                navigate(`/calendario/${usuarioId}`);
-            } else {
+            if (!response.ok) {
                 const errorData = await response.json();
                 throw new Error(errorData.message || 'Error desconocido al actualizar');
             }
+            alert('Datos actualizados con éxito!');
+            navigate(`/calendario/${usuarioId}`);
         } catch (error) {
             console.error('Error al actualizar datos:', error);
             alert('Error al actualizar los datos: ' + error.message);
         }
-    }
-    
+    };
+
     const borrarFormulario = async () => {
         try {
             const response = await fetch(`http://localhost:3006/api/formulario/${formData.diaTurno}`, {
-                method: 'DELETE'
+                method: 'DELETE',
+                headers: {
+                    'x-access-token': getCookie('token')
+                }
             });
-    
-            if (response.ok) {
-                alert('Formulario borrado con éxito');
-                navigate(`/calendario/${usuarioId}`); // Redirige al usuario después de eliminar
-            } else {
+            if (!response.ok) {
                 const errorData = await response.json();
                 throw new Error(errorData.message || 'Error desconocido al borrar');
             }
+            alert('Formulario borrado con éxito');
+            navigate(`/calendario/${usuarioId}`);
         } catch (error) {
             console.error('Error al borrar el formulario:', error);
             alert('Error al borrar el formulario: ' + error.message);
@@ -266,6 +245,8 @@ const Formulario = () => {
                             <input type="checkbox" name="Recogida_Camion" checked={formData.Recogida_Camion} onChange={handleChange} />
                         </label>
                     </div>
+                    <h3>-------------------------------------------------------------------------------</h3>
+                    <h3>FILTROS</h3>
                     <h3>-------------------------------------------------------------------------------</h3>
                     <h3>DATOS DE TURNO</h3>
                     <div className="form-section">
